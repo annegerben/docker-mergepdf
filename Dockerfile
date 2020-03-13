@@ -1,8 +1,12 @@
-FROM ubuntu:16.10
+FROM ubuntu:17.10
 
-RUN apt-get update && apt-get -y install build-essential unzip wget pdftk vim software-properties-common python-software-properties
+LABEL version="1.0.3"
+LABEL maintainer="robert@verst.eu"
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y incron inotify-tools task-spooler
+RUN apt-get update && apt-get -y install build-essential unzip \
+    wget pdftk vim software-properties-common \
+    python-software-properties moreutils incron \
+    inotify-tools task-spooler
 
 ADD ./mergepdf.sh /opt/mergepdf.sh
 RUN chmod a+x /opt/mergepdf.sh
@@ -16,5 +20,7 @@ RUN cd /home/r && incrontab -l > mycron && echo '/srv/input IN_CREATE /opt/merge
 USER root
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+ENV OCR_TIMEOUT=540
+ENV FW_TIMEOUT=600
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/incrond","-n"]
