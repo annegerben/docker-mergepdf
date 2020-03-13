@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.40
 
 LABEL version="1.0.3"
 LABEL maintainer="robert@verst.eu"
