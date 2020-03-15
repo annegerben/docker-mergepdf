@@ -9,7 +9,7 @@ RUN apt-get update && apt-get -y install build-essential unzip \
     inotify-tools task-spooler
 
 RUN add-apt-repository -y ppa:malteworld/ppa
-RUN apt-get update && apt-get -y pdftk
+RUN apt install -y pdftk
 
 ADD ./mergepdf.sh /opt/mergepdf.sh
 RUN chmod a+x /opt/mergepdf.sh
