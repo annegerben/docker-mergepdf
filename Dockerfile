@@ -4,8 +4,8 @@ LABEL version="1.0.4"
 LABEL maintainer="n/a"
 
 RUN apt-get update && apt-get -y install build-essential unzip \
-    wget vim software-properties-common \ #pdftk
-    moreutils incron \ #python-software-properties
+    wget vim software-properties-common \
+    moreutils incron \
     inotify-tools task-spooler
 
 RUN add-apt-repository -y ppa:malteworld/ppa
