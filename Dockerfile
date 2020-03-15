@@ -1,7 +1,7 @@
-FROM ubuntu:18.40
+FROM ubuntu:18.04
 
-LABEL version="1.0.3"
-LABEL maintainer="robert@verst.eu"
+LABEL version="1.0.4"
+LABEL maintainer="n/a"
 
 RUN apt-get update && apt-get -y install build-essential unzip \
     wget pdftk vim software-properties-common \
