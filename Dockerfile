@@ -1,12 +1,15 @@
-FROM ubuntu:16:04
+FROM ubuntu:18:04
 
 LABEL version="1.0.4"
 LABEL maintainer="n/a"
 
 RUN apt-get update && apt-get -y install build-essential unzip \
-    wget pdftk vim software-properties-common \
-    python-software-properties moreutils incron \
+    wget vim software-properties-common \ #pdftk
+    moreutils incron \ #python-software-properties
     inotify-tools task-spooler
+
+RUN add-apt-repository ppa:malteworld/ppa
+RUN apt-get update && apt-get -y pdftk
 
 ADD ./mergepdf.sh /opt/mergepdf.sh
 RUN chmod a+x /opt/mergepdf.sh
