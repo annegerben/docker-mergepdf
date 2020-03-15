@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:18:10
 
 LABEL version="1.0.4"
 LABEL maintainer="n/a"
