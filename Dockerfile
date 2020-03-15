@@ -8,7 +8,7 @@ RUN apt-get update && apt-get -y install build-essential unzip \
     moreutils incron \ #python-software-properties
     inotify-tools task-spooler
 
-RUN add-apt-repository ppa:malteworld/ppa
+RUN add-apt-repository -y ppa:malteworld/ppa
 RUN apt-get update && apt-get -y pdftk
 
 ADD ./mergepdf.sh /opt/mergepdf.sh
