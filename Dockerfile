@@ -22,7 +22,7 @@ RUN echo "lockfile_dir = /srv/input" >> /etc/incron.conf
 RUN echo root >> /etc/incron.allow
 #USER r
 
-RUN cd /home/root && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#' > mycron && echo '/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#' >> mycron && echo '/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
+RUN cd /home && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#' > mycron && echo '/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#' >> mycron && echo '/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
 #USER root
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
