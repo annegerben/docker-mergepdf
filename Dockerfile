@@ -19,7 +19,7 @@ RUN adduser --disabled-password --gecos '' r && adduser r sudo && echo '%sudo AL
 RUN echo r >> /etc/incron.allow
 USER r
 
-RUN cd /home/r && incrontab -l > mycron && echo '/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#'\ln'/srv/even IN_MOVED_TO /opt/rename_even.sh $#'\ln'/srv/input IN_MOVED_TO /opt/mergepdf.sh $#' >> mycron && incrontab mycron && rm mycron
+RUN cd /home/r && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#'\ln'/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#'\ln'/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
 USER root
 COPY rename_odd.sh /
 RUN chmod +x /rename_odd.sh
