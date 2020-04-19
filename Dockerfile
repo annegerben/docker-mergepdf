@@ -10,16 +10,19 @@ RUN apt-get update && apt-get -y install build-essential unzip \
 
 RUN add-apt-repository -y ppa:malteworld/ppa
 RUN apt install -y pdftk
-
+ADD ./rename_odd.sh /opt/rename_odd.sh
+ADD ./rename_even.sh /opt/rename_even.sh
 ADD ./mergepdf.sh /opt/mergepdf.sh
 RUN chmod a+x /opt/mergepdf.sh
+RUN chmod a+x /opt/rename_odd.sh
+RUN chmod a+x /opt/rename_even.sh
 RUN echo "lockfile_dir = /srv/input" >> /etc/incron.conf
 
 RUN adduser --disabled-password --gecos '' r && adduser r sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN echo r >> /etc/incron.allow
 USER r
 
-RUN cd /home/r && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#'\ln'/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#'\ln'/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
+RUN cd /home/r && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#' > mycron && echo '/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#' >> mycron && echo '/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
 USER root
 COPY rename_odd.sh /
 RUN chmod +x /rename_odd.sh
