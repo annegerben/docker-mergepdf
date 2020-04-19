@@ -18,12 +18,12 @@ RUN chmod a+x /opt/rename_odd.sh
 RUN chmod a+x /opt/rename_even.sh
 RUN echo "lockfile_dir = /srv/input" >> /etc/incron.conf
 
-RUN adduser --disabled-password --gecos '' r && adduser r sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN echo r >> /etc/incron.allow
-USER r
+#RUN adduser --disabled-password --gecos '' r && adduser r sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN echo root >> /etc/incron.allow
+#USER r
 
-RUN cd /home/r && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#' > mycron && echo '/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#' >> mycron && echo '/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
-USER root
+RUN cd /home/root && incrontab -l > mycron && echo '/srv/input IN_MOVED_TO /opt/mergepdf.sh $#' > mycron && echo '/srv/odd IN_MOVED_TO /opt/rename_odd.sh $#' >> mycron && echo '/srv/even IN_MOVED_TO /opt/rename_even.sh $#' >> mycron && incrontab mycron && rm mycron
+#USER root
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 COPY rename_odd.sh /
