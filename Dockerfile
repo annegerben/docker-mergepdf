@@ -6,7 +6,8 @@ LABEL maintainer="n/a"
 RUN apt-get update && apt-get -y install build-essential unzip \
     wget vim software-properties-common \
     moreutils incron \
-    inotify-tools task-spooler
+    inotify-tools task-spooler \
+    mc
 
 RUN add-apt-repository -y ppa:malteworld/ppa
 RUN apt install -y pdftk
@@ -16,7 +17,7 @@ ADD ./rename_even.sh /opt/rename_even.sh
 RUN chmod a+x /opt/mergepdf.sh
 RUN chmod a+x /opt/rename_odd.sh
 RUN chmod a+x /opt/rename_even.sh
-RUN echo "lockfile_dir = /srv/input" >> /etc/incron.conf
+RUN echo "lockfile_dir = /srv" >> /etc/incron.conf
 
 #RUN adduser --disabled-password --gecos '' r && adduser r sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN echo root >> /etc/incron.allow
