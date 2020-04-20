@@ -6,11 +6,10 @@ LABEL maintainer="n/a"
 RUN apt-get update && apt-get -y install build-essential unzip \
     wget vim software-properties-common \
     moreutils incron \
-    inotify-tools task-spooler \
-    mc
+    inotify-tools task-spooler 
 
 RUN add-apt-repository -y ppa:malteworld/ppa
-RUN apt install -y pdftk
+RUN apt install -y pdftk mc
 ADD ./mergepdf.sh /opt/mergepdf.sh
 ADD ./rename_odd.sh /opt/rename_odd.sh
 ADD ./rename_even.sh /opt/rename_even.sh
