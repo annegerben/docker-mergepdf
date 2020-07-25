@@ -9,7 +9,7 @@ RUN apt-get update && apt-get -y install build-essential unzip \
     inotify-tools task-spooler 
 
 RUN add-apt-repository -y ppa:malteworld/ppa
-RUN apt install -y pdftk mc
+RUN apt install -y pdftk
 ADD ./mergepdf.sh /opt/mergepdf.sh
 ADD ./rename_odd.sh /opt/rename_odd.sh
 ADD ./rename_even.sh /opt/rename_even.sh
