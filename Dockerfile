@@ -30,7 +30,8 @@ COPY rename_odd.sh /
 RUN chmod +x /rename_odd.sh
 COPY rename_even.sh /
 RUN chmod +x /rename_even.sh
-ENV OCR_TIMEOUT=540
-ENV FW_TIMEOUT=600
+ENV OCR_TIMEOUT=120
+ENV FW_TIMEOUT=60
+ENV TZ=EUROPE/AMSTERDAM
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/incrond","-n"]
