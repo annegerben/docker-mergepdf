@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-LABEL version="1.0.4"
+LABEL version="1.0.5"
 LABEL maintainer="n/a"
 
 RUN apt-get update && apt-get -y install build-essential unzip \
