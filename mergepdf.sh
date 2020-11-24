@@ -1,62 +1,46 @@
 #!/bin/bash
 INPUT=/srv/input
 OUTPUT=/srv/output
-stringOdd="merge_o.pdf"
-stringEven="merge_e.pdf"
+DATE=$(date +%F-%T): 
+DEBUG="echo $DATE start script with $1"
+FILENAME=$(date +%Y%m%d_%H%M%S)
+stringOdd=scan_o.pdf
+stringEven=scan_e.pdf
+
+$DEBUG
 
 cd $INPUT
 
-if [[  $1 == *_merged.pdf || $1 == *_o.pdf || $1 == *_e.pdf  ]]; then
+if [[ "$1" != *.pdf ]]; then
+  echo "$DATE not a pdf file, exit"
+  
   exit
 fi
 
-if [[ $1 == *.jpg || $1 == *.tiff ]]; then
-  echo "got a picture, copy direct to output"
-  inotifywait -t 600 -e close $1
-  mv $1 $OUTPUT/"$(date +%Y-%m-%d_%H-%M-%S)_"$1
-  echo "done..."
+if [[ "$1" == *_merged.pdf ]]; then
+  echo "$DATE self created pdf, exit"
   exit
 fi
 
-if [[ $1 != *.pdf ]]; then
-  echo "not a pdf file, do nothing"
+if [[  "$1" != *_o.pdf && "$1" != *_e.pdf  ]]; then
+  echo "$DATE not odd or even, exit"
   exit
-fi
-
-if [[  "$1" != odd*.pdf && "$1" != even*.pdf  ]]; then
-  #no multipage pdf file, copy directly to Output folder
-  echo "$(date +%Y-%m-%d_%H-%M-%S) - detected non mutlipage file"
-  inotifywait -t 600 -e close $1
-  sleep 3
-  rm $1
-  echo "$(date +%Y-%m-%d_%H-%M-%S) OCR done!"
-  sleep 2
-  exit
-fi
-
-if [[ "$1" == odd*.pdf ]]; then
-  echo "$(date +%Y-%m-%d_%H-%M-%S) - odd file detected"
-  mv -f $1 $stringOdd
-fi
-
-if [[ "$1" == even*.pdf ]]; then
-  echo "$(date +%Y-%m-%d_%H-%M-%S) - even file detected"
-  mv -f $1 $stringEven
 fi
 
 if [[ -f $stringOdd && -f $stringEven ]]; then
-  stringMerged="$(date +%Y-%m-%d_%H-%M-%S)_merged.pdf"
-  inotifywait -t 600 -e close $stringOdd $stringEven
-  sleep 1
-  echo "executing pdftk"
-  pdftk A=$stringOdd B=$stringEven shuffle A Bend-1 output $OUTPUT/$stringMerged
+  #inotifywait -e close $stringOdd $stringEven
+  sleep 5
+  echo "$DATE executing pdftk"
+  pdftk A=$stringOdd B=$stringEven shuffle A Bend-1 output $OUTPUT/$FILENAME.pdf
+  
   if [[ $RET -eq 0 ]]; then
-    echo "pdftk was successful, removing temporary files..."
-    echo "merged file: $stringMerged"
+    echo "$DATE pdftk merge was successful $FILENAME.pdf created, removing temporary $stringOdd $stringEven files..."
     rm  -f $stringOdd $stringEven
   fi
-  sleep 1
-  echo "done..."
+
+  echo "$DATE done..."
   exit
+ else
+  echo "$DATE file missing, exit" 
+  
 fi
-echo "done..."
