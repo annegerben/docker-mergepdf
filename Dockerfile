@@ -17,6 +17,6 @@ RUN echo root >> /etc/incron.allow
 RUN cd /home && incrontab -l > mycron && echo '/srv/input IN_CREATE /opt/mergepdf.sh $@/$#' >> mycron && incrontab mycron && rm mycron
 
 COPY entrypoint.sh /
-RUN chmod a+x ./mergepdf.sh
+RUN chmod +x mergepdf.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/incrond","-n"]
